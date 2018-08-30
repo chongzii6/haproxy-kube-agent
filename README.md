@@ -6,7 +6,7 @@ haproxy-kube-agent publish status of haproxy in localhost, including IP, listen 
 cloud-provider-baremetal will consume eht status and sned add/del request of lb, they communicate via etcd
 
 # The working procedure is:
-1. haproxy-kube-agent publish state to etcd, key=`<env:ETCD_LBAGENT_KEY>`/<lb_name>, value=[<lb_ip>:<listen_port>]. currently we only use haproxy listen configuration
+1. haproxy-kube-agent publish state to etcd, key=`<env:ETCD_LBAGENT_KEY>`/<lb_name>, value=[<lb_ip>:<listen_port>]. currently we only use haproxy listen configuration, **lb_name=listen_name**, lb_name is set by requirement of cloud-provider-baremetal
 2. cloud-provider-baremetal watch key `<env:ETCD_LBAGENT_KEY>` for lb status
 3. cloud-provider-baremetal publish request to etcd, key=`<env:ETCD_LBREQ_KEY>`/(add|del)/<lb_name>, value=[<endpoints>]
 4. haproxy-kube-agent watch key `<env:ETCD_LBREQ_KEY>` for request
