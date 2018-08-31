@@ -1,7 +1,9 @@
-cafile: ca.pem
-certfile: cert.pem
-keyfile: key.pem
+cafile: certs/ca.pem
+certfile: certs/etcd.pem
+keyfile: certs/etcd-key.pem
 endpoints:
-- 127.0.0.1:2379
+- https://192.168.100.210:2379
+- https://192.168.100.211:2379
+- https://192.168.100.212:2379
 agentkey: /chongzii6/lbagent
 reqkey: /chongzii6/lbreq
