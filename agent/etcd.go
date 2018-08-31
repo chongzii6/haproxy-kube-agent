@@ -61,15 +61,18 @@ func etcdWatch(key string, quit chan int) error {
 
 	wc := client.Watch(context.Background(), key, clientv3.WithPrefix())
 
-	select {
-	case <-quit:
-		return nil
-	case resp := <-wc:
-		for _, e := range resp.Events {
-			fmt.Printf("%s", e)
+	fmt.Printf("watching: %s\n", key)
+	for {
+		select {
+		case <-quit:
+			fmt.Println("quit")
+			return nil
+		case resp := <-wc:
+			for _, e := range resp.Events {
+				fmt.Printf("%s key:%s, value:%s\n", e.Type, e.Kv.Key, e.Kv.Value)
+			}
 		}
 	}
-	return nil
 }
 
 func etcdGet() error {

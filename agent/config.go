@@ -20,11 +20,20 @@ type Config struct {
 }
 
 func (c *Config) getConf(f string) {
+	// if !filepath.IsAbs(f) {
+	// 	abspath, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+
+	// 	f = filepath.Join(abspath, f)
+	// }
 
 	yamlFile, err := ioutil.ReadFile(f)
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}
+
 	err = yaml.Unmarshal(yamlFile, c)
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
