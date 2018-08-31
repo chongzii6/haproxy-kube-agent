@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	prefix_docker = "hap-"
+	prefixDocker = "hap-"
 )
 
 func getHaList() ([]string, error) {
@@ -34,7 +34,7 @@ func getHaList() ([]string, error) {
 		fmt.Printf("%s %s\n", container.ID[:10], container.Image)
 
 		for _, n := range container.Names {
-			if strings.HasPrefix(n, prefix_docker) {
+			if strings.HasPrefix(n, prefixDocker) {
 				names = append(names, n)
 			}
 		}
@@ -67,7 +67,7 @@ func runHaproxy(name string, haproxycfg string, hostport string, rm bool) error 
 		Binds:        []string{haproxycfg + ":/usr/local/etc/haproxy/haproxy.cfg"},
 		PortBindings: nat.PortMap{"80/tcp": {{HostPort: hostport}}},
 		AutoRemove:   true,
-	}, nil, prefix_docker+name)
+	}, nil, prefixDocker+name)
 	if err != nil {
 		return err
 	}
