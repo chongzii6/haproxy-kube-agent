@@ -20,31 +20,31 @@ func initConfig() {
 	flag.Parse()
 
 	if len(*configfile) > 0 {
-		cfg.getConf(*configfile)
+		CmdCfg.getConf(*configfile)
 	}
 
 	if len(*cafile) > 0 {
-		cfg.Cafile = *cafile
+		CmdCfg.Cafile = *cafile
 	}
 
 	if len(*certfile) > 0 {
-		cfg.Certfile = *certfile
+		CmdCfg.Certfile = *certfile
 	}
 
 	if len(*keyfile) > 0 {
-		cfg.Keyfile = *keyfile
+		CmdCfg.Keyfile = *keyfile
 	}
 
 	if len(*endpoints) > 0 {
-		cfg.Endpoints = strings.Split(*endpoints, ",")
+		CmdCfg.Endpoints = strings.Split(*endpoints, ",")
 	}
 
 	if len(*agentkey) > 0 {
-		cfg.Agentkey = *agentkey
+		CmdCfg.Agentkey = *agentkey
 	}
 
 	if len(*reqkey) > 0 {
-		cfg.Reqkey = *reqkey
+		CmdCfg.Reqkey = *reqkey
 	}
 }
 

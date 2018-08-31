@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"time"
 
 	"go.etcd.io/etcd/clientv3"
@@ -17,7 +17,7 @@ func newClientCfg() (*clientv3.Config, error) {
 	var cfgtls *transport.TLSInfo
 	tlsinfo := transport.TLSInfo{}
 
-	cfg := clientv3.Config{
+	cfg := &clientv3.Config{
 		Endpoints:   CmdCfg.Endpoints,
 		DialTimeout: dialTimeout,
 	}
@@ -59,18 +59,15 @@ func etcdWatch(key string, quit chan int) error {
 	}
 	defer client.Close()
 
-	wc, err := client.Watch(context.Background(), key, clientv3.WithPrefix())
-	if err != nil {
-		return err
-	}
+	wc := client.Watch(context.Background(), key, clientv3.WithPrefix())
 
 	select {
-		case <-quit:
-			return nil
-		case resp: = <-wc:
-			for _, e := range resp.Events {
-				fmt.Printf("%s", e)
-			}
+	case <-quit:
+		return nil
+	case resp := <-wc:
+		for _, e := range resp.Events {
+			fmt.Printf("%s", e)
+		}
 	}
 	return nil
 }
