@@ -17,6 +17,7 @@ type Config struct {
 	Endpoints []string
 	Agentkey  string
 	Reqkey    string
+	Cfgpath   string
 }
 
 func (c *Config) getConf(f string) {
@@ -43,7 +44,7 @@ func (c *Config) getConf(f string) {
 //CmdCfg keeps global configuration
 var CmdCfg = Config{}
 
-//
+//InitConfigFromArgs handle command-line options
 func InitConfigFromArgs() {
 	// quiets down kube client library logging
 	configfile := flag.String("config", "", "<optional> path to config yaml file")
@@ -53,6 +54,7 @@ func InitConfigFromArgs() {
 	endpoints := flag.String("endpoints", "", "endpoints of etcd")
 	agentkey := flag.String("agent", "", "agent key used in etcd")
 	reqkey := flag.String("req", "", "req key used in etcd")
+	cfgpath := flag.String("path", "", "req key used in etcd")
 	flag.Parse()
 
 	if len(*configfile) > 0 {
@@ -81,5 +83,9 @@ func InitConfigFromArgs() {
 
 	if len(*reqkey) > 0 {
 		CmdCfg.Reqkey = *reqkey
+	}
+
+	if len(*cfgpath) > 0 {
+		CmdCfg.Cfgpath = *cfgpath
 	}
 }

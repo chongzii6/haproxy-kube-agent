@@ -22,5 +22,5 @@ func TestEtcdWatch(t *testing.T) {
 		quit <- 0
 	}()
 
-	etcdWatch(CmdCfg.Reqkey, quit)
+	EtcdWatch(CmdCfg.Reqkey, quit)
 }

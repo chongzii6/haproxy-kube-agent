@@ -27,9 +27,9 @@ listen http-in
 
 //Endpoint from cloud-provider
 type Endpoint struct {
-	Name string
-	IP   string
-	Port int
+	Name string `json:"name"`
+	IP   string `json:"ip"`
+	Port int    `json:"port"`
 }
 
 //WriteHaproxyCfg output haproxy.cfg

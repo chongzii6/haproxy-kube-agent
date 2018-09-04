@@ -17,7 +17,8 @@ const (
 	prefixDocker = "hap-"
 )
 
-func getHaList() ([]string, error) {
+//GetHaList get docker list
+func GetHaList() ([]string, error) {
 	cli, err := client.NewEnvClient()
 	if err != nil {
 		return nil, err
@@ -43,7 +44,8 @@ func getHaList() ([]string, error) {
 	return names, nil
 }
 
-func runHaproxy(name string, haproxycfg string, hostport string, rm bool) error {
+//RunHaproxy run new haproxy
+func RunHaproxy(name string, haproxycfg string, hostport string, rm bool) error {
 	cli, err := client.NewEnvClient()
 	if err != nil {
 		return err

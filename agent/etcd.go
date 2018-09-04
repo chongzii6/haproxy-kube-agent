@@ -2,7 +2,7 @@ package agent
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"go.etcd.io/etcd/clientv3"
@@ -47,13 +47,25 @@ func newClientCfg() (*clientv3.Config, error) {
 	return cfg, nil
 }
 
-func etcdWatch(key string, quit chan int) error {
+func newClient() (*clientv3.Client, error) {
 	cfg, err := newClientCfg()
 	if err != nil {
-		return err
+		log.Fatalln(err)
+		return nil, err
 	}
 
 	client, err := clientv3.New(*cfg)
+	if err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+
+	return client, nil
+}
+
+//EtcdWatch watch key
+func EtcdWatch(key string, quit chan int) error {
+	client, err := newClient()
 	if err != nil {
 		return err
 	}
@@ -61,31 +73,71 @@ func etcdWatch(key string, quit chan int) error {
 
 	wc := client.Watch(context.Background(), key, clientv3.WithPrefix())
 
-	fmt.Printf("watching: %s\n", key)
+	log.Printf("watching: %s\n", key)
 	for {
 		select {
 		case <-quit:
-			fmt.Println("quit")
+			log.Println("quit")
 			return nil
 		case resp := <-wc:
 			for _, e := range resp.Events {
-				fmt.Printf("%s key:%s, value:%s\n", e.Type, e.Kv.Key, e.Kv.Value)
+				log.Printf("%s key:%s, value:%s\n", e.Type, e.Kv.Key, e.Kv.Value)
+				HandleReq(e.Kv.Key, e.Kv.Value)
 			}
 		}
 	}
 }
 
-func etcdGet() error {
-	cfg, err := newClientCfg()
-	if err != nil {
-		return err
-	}
-
-	client, err := clientv3.New(*cfg)
+//EtcdGet get
+func EtcdGet(key string) error {
+	client, err := newClient()
 	if err != nil {
 		return err
 	}
 	defer client.Close()
 
+	var resp *clientv3.GetResponse
+	if resp, err = client.Get(context.Background(), key); err != nil {
+		log.Fatalln(err)
+		return err
+	}
+	log.Println("resp: ", resp)
+
+	return nil
+}
+
+//EtcdPut put
+func EtcdPut(key string, val string) error {
+	client, err := newClient()
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+
+	var resp *clientv3.PutResponse
+	if resp, err = client.Put(context.Background(), key, val); err != nil {
+		log.Fatalln(err)
+		return err
+	}
+
+	log.Println("resp: ", resp)
+	return nil
+}
+
+//EtcdDel del key
+func EtcdDel(key string) error {
+	client, err := newClient()
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+
+	var resp *clientv3.DeleteResponse
+	if resp, err = client.Delete(context.Background(), key); err != nil {
+		log.Fatalln(err)
+		return nil
+	}
+
+	log.Println("resp: ", resp)
 	return nil
 }

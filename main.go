@@ -6,4 +6,6 @@ import (
 
 func main() {
 	agent.InitConfigFromArgs()
+	quit := make(chan int)
+	agent.EtcdWatch(agent.CmdCfg.Reqkey, quit)
 }
