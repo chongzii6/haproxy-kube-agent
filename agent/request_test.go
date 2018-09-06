@@ -32,3 +32,19 @@ func TestHandleReq(t *testing.T) {
 		fmt.Println(err)
 	}
 }
+
+func TestGetLocalIP(t *testing.T) {
+	ip, err := getLocalIP("")
+	if err == nil {
+		fmt.Println(ip)
+	} else {
+		fmt.Println(err)
+	}
+
+	ip, err = getLocalIP("本地连接")
+	if err == nil {
+		fmt.Println(ip)
+	} else {
+		fmt.Println(err)
+	}
+}

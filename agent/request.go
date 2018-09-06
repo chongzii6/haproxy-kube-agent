@@ -3,6 +3,7 @@ package agent
 import (
 	"encoding/json"
 	"fmt"
+	"net"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -91,4 +92,41 @@ func deleteLoadBalancer(name string) error {
 
 	err = EtcdDel(lbkey)
 	return err
+}
+
+func getLocalIP(ifname string) (string, error) {
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		return "", err
+	}
+
+	for _, i := range ifaces {
+		addrs, err := i.Addrs()
+		if err != nil {
+			return "", err
+		}
+
+		if ifname != "" && ifname != i.Name {
+			continue
+		}
+
+		for _, addr := range addrs {
+			var ip net.IP
+			switch v := addr.(type) {
+			case *net.IPNet:
+				ip = v.IP.To4()
+			case *net.IPAddr:
+				ip = v.IP.To4()
+			}
+
+			if ip != nil {
+				// fmt.Println(i.Name, ip)
+				if !ip.IsLoopback() {
+					return ip.String(), nil
+				}
+			}
+		}
+	}
+
+	return "", nil
 }
