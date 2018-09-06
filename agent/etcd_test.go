@@ -55,15 +55,32 @@ func TestWatchAndPut(t *testing.T) {
 
 		EtcdPut(key, value)
 		<-time.After(time.Second * 15)
-
-		// reader := bufio.NewReader(os.Stdin)
-		// fmt.Print("Enter text: ")
-		// text, _ := reader.ReadString('\n')
-		// fmt.Println(text)
-
 		quit <- 0
 	}()
 
 	EtcdWatch(CmdCfg.Reqkey, quit)
 
+}
+
+func TestWatchAndDel(t *testing.T) {
+	os.Chdir("..")
+	CmdCfg.getConf("agent.yml")
+
+	quit := make(chan int)
+	go func() {
+		<-time.After(time.Second * 2)
+
+		key := CmdCfg.Reqkey + "/testkey"
+		value := `
+		{
+			"action":"del", 
+			"loadbalance_name":"lb1"
+		}`
+
+		EtcdPut(key, value)
+		<-time.After(time.Second * 15)
+		quit <- 0
+	}()
+
+	EtcdWatch(CmdCfg.Reqkey, quit)
 }

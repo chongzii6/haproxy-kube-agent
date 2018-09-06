@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/coreos/etcd/mvcc/mvccpb"
 	"go.etcd.io/etcd/clientv3"
 	"go.etcd.io/etcd/pkg/transport"
 )
@@ -82,28 +83,34 @@ func EtcdWatch(key string, quit chan int) error {
 		case resp := <-wc:
 			for _, e := range resp.Events {
 				log.Printf("%s key:%s, value:%s\n", e.Type, e.Kv.Key, e.Kv.Value)
-				HandleReq(e.Kv.Key, e.Kv.Value)
+				if e.Type == mvccpb.PUT {
+					HandleReq(e.Kv.Key, e.Kv.Value)
+				}
 			}
 		}
 	}
 }
 
 //EtcdGet get
-func EtcdGet(key string) error {
+func EtcdGet(key string) (string, error) {
 	client, err := newClient()
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer client.Close()
 
 	var resp *clientv3.GetResponse
 	if resp, err = client.Get(context.Background(), key); err != nil {
 		log.Fatalln(err)
-		return err
+		return "", err
 	}
 	log.Println("resp: ", resp)
 
-	return nil
+	var ret string
+	for _, kv := range resp.Kvs {
+		ret += string(kv.Value)
+	}
+	return ret, nil
 }
 
 //EtcdPut put

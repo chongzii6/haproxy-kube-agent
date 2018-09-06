@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -45,10 +46,10 @@ func GetHaList() ([]string, error) {
 }
 
 //RunHaproxy run new haproxy
-func RunHaproxy(name string, haproxycfg string, hostport string, rm bool) error {
+func RunHaproxy(name string, haproxycfg string, hostport string, rm bool) (string, error) {
 	cli, err := client.NewEnvClient()
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer cli.Close()
 
@@ -57,7 +58,7 @@ func RunHaproxy(name string, haproxycfg string, hostport string, rm bool) error 
 
 	out, err := cli.ImagePull(ctx, imageName, types.ImagePullOptions{})
 	if err != nil {
-		return err
+		return "", err
 	}
 	io.Copy(os.Stdout, out)
 
@@ -71,11 +72,11 @@ func RunHaproxy(name string, haproxycfg string, hostport string, rm bool) error 
 		AutoRemove:   true,
 	}, nil, prefixDocker+name)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	if err := cli.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{}); err != nil {
-		return err
+		return "", err
 	}
 
 	fmt.Println(resp.ID)
@@ -95,5 +96,18 @@ func RunHaproxy(name string, haproxycfg string, hostport string, rm bool) error 
 	// }
 
 	// io.Copy(os.Stdout, out)
-	return nil
+	return resp.ID, nil
+}
+
+//DelHaproxy delete
+func DelHaproxy(containerID string) error {
+	cli, err := client.NewEnvClient()
+	if err != nil {
+		return err
+	}
+	defer cli.Close()
+
+	timeout := time.Second * 5
+	err = cli.ContainerStop(context.Background(), containerID, &timeout)
+	return err
 }

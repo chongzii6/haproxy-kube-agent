@@ -30,9 +30,12 @@ func HandleReq(reqKey []byte, reqVal []byte) error {
 	case "add":
 		err = addLoadBalancer(req.LbName, req.Endpoints, req.TargetPort)
 	case "upd":
-		updateLoadBalancer(req.LbName, req.Endpoints)
+		err = updateLoadBalancer(req.LbName, req.Endpoints)
 	case "del":
-		deleteLoadBalancer(req.LbName)
+		err = deleteLoadBalancer(req.LbName)
+	}
+	if err == nil {
+		EtcdDel(string(reqKey))
 	}
 
 	return err
@@ -60,17 +63,32 @@ func addLoadBalancer(name string, endpoints []Endpoint, port int) error {
 
 	}
 	p := fmt.Sprintf("%d", port)
-	err = RunHaproxy(name, dockerpath, p, true)
+	cid, err := RunHaproxy(name, dockerpath, p, true)
 	if err != nil {
 		return err
 	}
+
+	lbkey := fmt.Sprintf("%s/%s", CmdCfg.Agentkey, name)
+	EtcdPut(lbkey, cid)
 	return nil
 }
 
-func updateLoadBalancer(Name string, Endpoints []Endpoint) {
-
+func updateLoadBalancer(name string, endpoints []Endpoint) error {
+	return nil
 }
 
-func deleteLoadBalancer(Name string) {
+func deleteLoadBalancer(name string) error {
+	lbkey := fmt.Sprintf("%s/%s", CmdCfg.Agentkey, name)
+	id, err := EtcdGet(lbkey)
+	if err != nil {
+		return err
+	}
 
+	err = DelHaproxy(id)
+	if err != nil {
+		return err
+	}
+
+	err = EtcdDel(lbkey)
+	return err
 }
