@@ -59,7 +59,6 @@ func TestWatchAndPut(t *testing.T) {
 	}()
 
 	EtcdWatch(CmdCfg.Reqkey, quit)
-
 }
 
 func TestWatchAndDel(t *testing.T) {
