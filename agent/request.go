@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"github.com/satori/go.uuid"
 )
 
 //Request struct
@@ -25,6 +26,18 @@ type LBState struct {
 }
 
 var hostIP string
+
+//SendReq put request to etcd
+func SendReq(req *Request) error {
+	u1 := uuid.Must(uuid.NewV4())
+	key := fmt.Sprintf("%s/%s", CmdCfg.Reqkey, u1)
+	by, err := json.Marshal(req)
+	if err == nil {
+		EtcdPut(key, string(by))
+	}
+
+	return err
+}
 
 //HandleReq handle watched request
 func HandleReq(reqKey []byte, reqVal []byte) error {
