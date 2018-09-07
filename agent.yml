@@ -8,3 +8,4 @@ endpoints:
 agentkey: /chongzii6/lbagent
 reqkey: /chongzii6/lbreq
 cfgpath: /c/Users/junlinch/vol
+ifname: 本地连接

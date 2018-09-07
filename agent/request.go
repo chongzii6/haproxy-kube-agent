@@ -18,6 +18,14 @@ type Request struct {
 	Endpoints  []Endpoint `json:"endpoints,omitempty"`
 }
 
+//LBState store loadbalancer status
+type LBState struct {
+	HostIP      string `json:"ip"`
+	ContainerID string `json:"cid"`
+}
+
+var hostIP string
+
 //HandleReq handle watched request
 func HandleReq(reqKey []byte, reqVal []byte) error {
 	var req Request
@@ -69,9 +77,21 @@ func addLoadBalancer(name string, endpoints []Endpoint, port int) error {
 		return err
 	}
 
+	if hostIP == "" {
+		hostIP, _ = getLocalIP(CmdCfg.Ifname)
+	}
+
 	lbkey := fmt.Sprintf("%s/%s", CmdCfg.Agentkey, name)
-	EtcdPut(lbkey, cid)
-	return nil
+
+	st := &LBState{
+		HostIP:      hostIP,
+		ContainerID: cid}
+	text, err := json.Marshal(st)
+	if err == nil {
+		EtcdPut(lbkey, string(text))
+	}
+
+	return err
 }
 
 func updateLoadBalancer(name string, endpoints []Endpoint) error {
@@ -80,14 +100,18 @@ func updateLoadBalancer(name string, endpoints []Endpoint) error {
 
 func deleteLoadBalancer(name string) error {
 	lbkey := fmt.Sprintf("%s/%s", CmdCfg.Agentkey, name)
-	id, err := EtcdGet(lbkey)
+	text, err := EtcdGet(lbkey)
 	if err != nil {
 		return err
 	}
 
-	err = DelHaproxy(id)
-	if err != nil {
-		return err
+	st := &LBState{}
+	err = json.Unmarshal([]byte(text), st)
+	if err == nil {
+		err = DelHaproxy(st.ContainerID)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = EtcdDel(lbkey)

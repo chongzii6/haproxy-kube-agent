@@ -18,6 +18,7 @@ type Config struct {
 	Agentkey  string
 	Reqkey    string
 	Cfgpath   string
+	Ifname    string
 }
 
 func (c *Config) getConf(f string) {
