@@ -113,6 +113,14 @@
   revision = "839d9e913e063e28dfd0e6c7b7512793e0a48be9"
 
 [[projects]]
+  digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
   digest = "1:13411b0cff6edf67296a5cfe6c318fbcba971643e217f4a05c2df82135374665"
   name = "go.etcd.io/etcd"
   packages = [
@@ -220,10 +228,12 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/coreos/etcd/mvcc/mvccpb",
     "github.com/docker/docker/api/types",
     "github.com/docker/docker/api/types/container",
     "github.com/docker/docker/client",
     "github.com/docker/go-connections/nat",
+    "github.com/satori/go.uuid",
     "go.etcd.io/etcd/clientv3",
     "go.etcd.io/etcd/pkg/transport",
     "gopkg.in/yaml.v2",
