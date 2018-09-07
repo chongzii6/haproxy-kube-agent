@@ -12,12 +12,22 @@ import (
 	"github.com/satori/go.uuid"
 )
 
+//RequestType define request
+type RequestType int32
+
+//ADD loadbalancer
+const (
+	ADD    RequestType = 1
+	UPDATE RequestType = 2
+	DELETE RequestType = 3
+)
+
 //Request struct
 type Request struct {
-	Action     string     `json:"action"`
-	LbName     string     `json:"loadbalance_name"`
-	TargetPort int        `json:"target_port,omitempty"`
-	Endpoints  []Endpoint `json:"endpoints,omitempty"`
+	Action     RequestType `json:"action"`
+	LbName     string      `json:"loadbalance_name"`
+	TargetPort int         `json:"target_port,omitempty"`
+	Endpoints  []Endpoint  `json:"endpoints,omitempty"`
 }
 
 //LBState store loadbalancer status
@@ -50,11 +60,11 @@ func HandleReq(reqKey []byte, reqVal []byte) error {
 	}
 
 	switch req.Action {
-	case "add":
+	case ADD:
 		err = addLoadBalancer(req.LbName, req.Endpoints, req.TargetPort)
-	case "upd":
+	case UPDATE:
 		err = updateLoadBalancer(req.LbName, req.Endpoints)
-	case "del":
+	case DELETE:
 		err = deleteLoadBalancer(req.LbName)
 	}
 	if err == nil {

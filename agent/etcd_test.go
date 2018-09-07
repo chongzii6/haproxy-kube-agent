@@ -54,7 +54,7 @@ func TestWatchAndPut(t *testing.T) {
 		// }`
 
 		req := &Request{
-			Action:     "add",
+			Action:     ADD,
 			LbName:     "lb2",
 			TargetPort: 3900,
 			Endpoints: []Endpoint{
@@ -88,7 +88,7 @@ func TestWatchAndDel(t *testing.T) {
 		// EtcdPut(key, value)
 
 		req := &Request{
-			Action: "del",
+			Action: DELETE,
 			LbName: "lb2",
 		}
 		SendReq(req)
