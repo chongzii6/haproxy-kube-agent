@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+
 	"github.com/satori/go.uuid"
 )
 
@@ -29,7 +30,7 @@ var hostIP string
 
 //SendReq put request to etcd
 func SendReq(req *Request) error {
-	u1 := uuid.Must(uuid.NewV4())
+	u1 := uuid.NewV4()
 	key := fmt.Sprintf("%s/%s", CmdCfg.Reqkey, u1)
 	by, err := json.Marshal(req)
 	if err == nil {
