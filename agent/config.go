@@ -2,6 +2,7 @@ package agent
 
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -40,6 +41,11 @@ func (c *Config) getConf(f string) {
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}
+}
+
+//GetReqkey return reqkey with ip
+func (c *Config) GetReqkey() string {
+	return fmt.Sprintf("%s/%s", c.Reqkey, GetHostIP())
 }
 
 //CmdCfg keeps global configuration

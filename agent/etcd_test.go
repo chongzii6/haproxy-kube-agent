@@ -22,7 +22,7 @@ func TestEtcdWatch(t *testing.T) {
 		quit <- 0
 	}()
 
-	EtcdWatch(CmdCfg.Reqkey, quit)
+	EtcdWatch(CmdCfg.GetReqkey(), quit)
 }
 
 func TestWatchAndPut(t *testing.T) {
@@ -32,26 +32,6 @@ func TestWatchAndPut(t *testing.T) {
 	quit := make(chan int)
 	go func() {
 		<-time.After(time.Second * 2)
-
-		// key := CmdCfg.Reqkey + "/testkey"
-		// value := `
-		// {
-		// 	"action":"add",
-		// 	"loadbalance_name":"lb1",
-		// 	"target_port":3800,
-		// 	"endpoints":[
-		// 		{
-		// 			"name":"server1",
-		// 			"ip":"192.168.100.210",
-		// 			"port":38000
-		// 		},
-		// 		{
-		// 			"name":"server2",
-		// 			"ip":"192.168.100.211",
-		// 			"port":38000
-		// 		}
-		// 	]
-		// }`
 
 		req := &Request{
 			Action:     ADD,
@@ -68,7 +48,7 @@ func TestWatchAndPut(t *testing.T) {
 		quit <- 0
 	}()
 
-	EtcdWatch(CmdCfg.Reqkey, quit)
+	EtcdWatch(CmdCfg.GetReqkey(), quit)
 }
 
 func TestWatchAndDel(t *testing.T) {
@@ -78,14 +58,6 @@ func TestWatchAndDel(t *testing.T) {
 	quit := make(chan int)
 	go func() {
 		<-time.After(time.Second * 2)
-
-		// key := CmdCfg.Reqkey + "/testkey"
-		// value := `
-		// {
-		// 	"action":"del",
-		// 	"loadbalance_name":"lb1"
-		// }`
-		// EtcdPut(key, value)
 
 		req := &Request{
 			Action: DELETE,
@@ -97,5 +69,5 @@ func TestWatchAndDel(t *testing.T) {
 		quit <- 0
 	}()
 
-	EtcdWatch(CmdCfg.Reqkey, quit)
+	EtcdWatch(CmdCfg.GetReqkey(), quit)
 }

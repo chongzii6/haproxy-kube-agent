@@ -84,7 +84,10 @@ func EtcdWatch(key string, quit chan int) error {
 			for _, e := range resp.Events {
 				log.Printf("%s key:%s, value:%s\n", e.Type, e.Kv.Key, e.Kv.Value)
 				if e.Type == mvccpb.PUT {
-					HandleReq(e.Kv.Key, e.Kv.Value)
+					err = HandleReq(e.Kv.Key, e.Kv.Value)
+					if err != nil {
+						log.Println(err)
+					}
 				}
 			}
 		}

@@ -38,10 +38,19 @@ type LBState struct {
 
 var hostIP string
 
+//GetHostIP return host ip
+func GetHostIP() string {
+	if hostIP == "" {
+		hostIP, _ = getLocalIP(CmdCfg.Ifname)
+	}
+
+	return hostIP
+}
+
 //SendReq put request to etcd
 func SendReq(req *Request) error {
 	u1 := uuid.NewV4()
-	key := fmt.Sprintf("%s/%s", CmdCfg.Reqkey, u1)
+	key := fmt.Sprintf("%s/%s", CmdCfg.GetReqkey(), u1)
 	by, err := json.Marshal(req)
 	if err == nil {
 		EtcdPut(key, string(by))
@@ -101,14 +110,10 @@ func addLoadBalancer(name string, endpoints []Endpoint, port int) error {
 		return err
 	}
 
-	if hostIP == "" {
-		hostIP, _ = getLocalIP(CmdCfg.Ifname)
-	}
-
 	lbkey := fmt.Sprintf("%s/%s", CmdCfg.Agentkey, name)
 
 	st := &LBState{
-		HostIP:      hostIP,
+		HostIP:      GetHostIP(),
 		ContainerID: cid}
 	text, err := json.Marshal(st)
 	if err == nil {

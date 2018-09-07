@@ -31,5 +31,5 @@ func main() {
 		}
 	}()
 
-	agent.EtcdWatch(agent.CmdCfg.Reqkey, quit)
+	agent.EtcdWatch(agent.CmdCfg.GetReqkey(), quit)
 }
