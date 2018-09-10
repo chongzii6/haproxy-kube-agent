@@ -28,6 +28,7 @@ type Request struct {
 	LbName     string      `json:"loadbalance_name"`
 	TargetPort int         `json:"target_port,omitempty"`
 	Endpoints  []Endpoint  `json:"endpoints,omitempty"`
+	SvcName    string      `json:"service_name,omitempty"`
 }
 
 //LBState store loadbalancer status
