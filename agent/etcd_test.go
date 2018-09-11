@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -49,6 +50,23 @@ func TestWatchAndPut(t *testing.T) {
 	}()
 
 	EtcdWatch(CmdCfg.GetReqkey(), quit)
+}
+
+func TestGet(t *testing.T) {
+	os.Chdir("..")
+	CmdCfg.getConf("agent.yml")
+
+	key := "/chongzii6/b"
+	str, err := EtcdGet(key)
+	if err == nil && str != "" {
+		fmt.Println(str)
+	}
+
+	key = "/chongzii6/a"
+	str, err = EtcdGet(key)
+	if err == nil && str != "" {
+		fmt.Println(str)
+	}
 }
 
 func TestWatchAndDel(t *testing.T) {

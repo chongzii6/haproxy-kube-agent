@@ -9,3 +9,4 @@ agentkey: /hapagent/lbagent
 reqkey: /hapagent/lbreq
 cfgpath: /c/Users/junlinch/vol
 ifname: 本地连接
+anyip: any

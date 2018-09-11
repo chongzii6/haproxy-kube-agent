@@ -20,6 +20,7 @@ type Config struct {
 	Reqkey    string
 	Cfgpath   string
 	Ifname    string
+	AnyIP     string
 }
 
 func (c *Config) getConf(f string) {
@@ -46,6 +47,21 @@ func (c *Config) getConf(f string) {
 //GetReqkey return reqkey with ip
 func (c *Config) GetReqkey() string {
 	return fmt.Sprintf("%s/%s", c.Reqkey, GetHostIP())
+}
+
+var anyIP string
+
+//GetAnyReqkey return reqkey for any
+func (c *Config) GetAnyReqkey() string {
+	if anyIP == "" {
+		anyIP = fmt.Sprintf("%s/%s", c.Reqkey, c.AnyIP)
+	}
+	return anyIP
+}
+
+//IsAnyKey check any key
+func (c *Config) IsAnyKey(key string) bool {
+	return strings.HasPrefix(key, c.GetAnyReqkey())
 }
 
 //CmdCfg keeps global configuration

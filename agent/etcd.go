@@ -3,12 +3,11 @@ package agent
 import (
 	"context"
 	"log"
-	"os"
-	"os/signal"
 	"time"
 
 	"github.com/coreos/etcd/mvcc/mvccpb"
 	"go.etcd.io/etcd/clientv3"
+	"go.etcd.io/etcd/clientv3/concurrency"
 	"go.etcd.io/etcd/pkg/transport"
 )
 
@@ -76,14 +75,9 @@ func EtcdWatch(key string, quit chan int) error {
 
 	wc := client.Watch(context.Background(), key, clientv3.WithPrefix())
 
-	c := make(chan os.Signal)
-	signal.Notify(c)
 	log.Printf("watching: %s\n", key)
 	for {
 		select {
-		case s := <-c:
-			log.Println("Got signal:", s) //Got signal: terminated
-			return nil
 		case <-quit:
 			log.Println("quit")
 			return nil
@@ -157,4 +151,21 @@ func EtcdDel(key string) error {
 
 	log.Println("resp: ", resp)
 	return nil
+}
+
+//EtcdMutex lock
+func EtcdMutex() error {
+	client, err := newClient()
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+
+	s1, err := concurrency.NewSession(client)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer s1.Close()
+	m1 := concurrency.NewMutex(s1, "/my-lock/")
+
 }

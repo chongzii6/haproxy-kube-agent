@@ -34,6 +34,7 @@ type Request struct {
 //LBState store loadbalancer status
 type LBState struct {
 	HostIP      string `json:"ip"`
+	Port        string `json:"port,omitempty"`
 	ContainerID string `json:"cid"`
 }
 
@@ -63,6 +64,13 @@ func SendReq(req *Request) error {
 //HandleReq handle watched request
 func HandleReq(reqKey []byte, reqVal []byte) error {
 	var req Request
+	key := string(reqKey)
+	isAny := CmdCfg.IsAnyKey(key)
+
+	if isAny {
+
+	}
+
 	err := json.Unmarshal(reqVal, &req)
 	if err != nil {
 		fmt.Printf("%s\n", err)
@@ -78,7 +86,7 @@ func HandleReq(reqKey []byte, reqVal []byte) error {
 		err = deleteLoadBalancer(req.LbName)
 	}
 	if err == nil {
-		EtcdDel(string(reqKey))
+		EtcdDel(key)
 	}
 
 	return err
@@ -115,7 +123,9 @@ func addLoadBalancer(name string, endpoints []Endpoint, port int) error {
 
 	st := &LBState{
 		HostIP:      GetHostIP(),
-		ContainerID: cid}
+		ContainerID: cid,
+		Port:        p}
+
 	text, err := json.Marshal(st)
 	if err == nil {
 		EtcdPut(lbkey, string(text))
