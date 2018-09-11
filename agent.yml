@@ -5,7 +5,7 @@ endpoints:
 - https://192.168.100.210:2379
 - https://192.168.100.211:2379
 - https://192.168.100.212:2379
-agentkey: /chongzii6/lbagent
-reqkey: /chongzii6/lbreq
+agentkey: /hapagent/lbagent
+reqkey: /hapagent/lbreq
 cfgpath: /c/Users/junlinch/vol
 ifname: 本地连接
