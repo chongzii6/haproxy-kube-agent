@@ -14,6 +14,7 @@ FROM golang:1.10
 RUN mkdir -p /go/bin/config
 COPY --from=BUILD /go/src/github.com/chongzii6/haproxy-kube-agent/haproxy-kube-agent /go/bin
 COPY --from=BUILD /go/src/github.com/chongzii6/haproxy-kube-agent/agent.yml /go/bin
+COPY --from=BUILD /go/src/github.com/chongzii6/haproxy-kube-agent/certs /go/bin
 WORKDIR /go/bin
 
 CMD ["haproxy-kube-agent","--config=agent.yml"]
