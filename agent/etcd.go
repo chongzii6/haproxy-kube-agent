@@ -3,6 +3,8 @@ package agent
 import (
 	"context"
 	"log"
+	"os"
+	"os/signal"
 	"time"
 
 	"github.com/coreos/etcd/mvcc/mvccpb"
@@ -74,9 +76,14 @@ func EtcdWatch(key string, quit chan int) error {
 
 	wc := client.Watch(context.Background(), key, clientv3.WithPrefix())
 
+	c := make(chan os.Signal)
+	signal.Notify(c)
 	log.Printf("watching: %s\n", key)
 	for {
 		select {
+		case s := <-c:
+			log.Println("Got signal:", s) //Got signal: terminated
+			return nil
 		case <-quit:
 			log.Println("quit")
 			return nil
