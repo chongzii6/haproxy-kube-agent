@@ -20,7 +20,11 @@ func main() {
 		for {
 			reader := bufio.NewReader(os.Stdin)
 			fmt.Print("Enter Command: ")
-			text, _ := reader.ReadString('\n')
+			text, err := reader.ReadString('\n')
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
 			text = strings.TrimSpace(text)
 			fmt.Println("command: ", text)
 
