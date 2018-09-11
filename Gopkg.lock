@@ -10,10 +10,11 @@
   version = "v0.4.11"
 
 [[projects]]
-  digest = "1:2d74a130156ab35ee5ddc229e7e3d31d07ddbcd9fd322db3c5427fa356f185f7"
+  digest = "1:d0c885511c8406d122085960e4fb850547380e285b4112a46282319ca7234ed6"
   name = "github.com/coreos/etcd"
   packages = [
     "auth/authpb",
+    "clientv3",
     "etcdserver/api/v3rpc/rpctypes",
     "etcdserver/etcdserverpb",
     "mvcc/mvccpb",
@@ -121,10 +122,11 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:13411b0cff6edf67296a5cfe6c318fbcba971643e217f4a05c2df82135374665"
+  digest = "1:9148afaeb1df1ad758fe4b33ec66dd53a1f8d9e1584c02eefeb200c552d5cbbf"
   name = "go.etcd.io/etcd"
   packages = [
     "clientv3",
+    "clientv3/concurrency",
     "pkg/transport",
   ]
   pruneopts = "UT"
@@ -235,6 +237,7 @@
     "github.com/docker/go-connections/nat",
     "github.com/satori/go.uuid",
     "go.etcd.io/etcd/clientv3",
+    "go.etcd.io/etcd/clientv3/concurrency",
     "go.etcd.io/etcd/pkg/transport",
     "gopkg.in/yaml.v2",
   ]
