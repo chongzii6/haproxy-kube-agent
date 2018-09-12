@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
+	"github.com/coreos/etcd/clientv3"
+	"github.com/coreos/etcd/clientv3/concurrency"
 	"github.com/coreos/etcd/mvcc/mvccpb"
-	"go.etcd.io/etcd/clientv3"
-	"go.etcd.io/etcd/clientv3/concurrency"
-	"go.etcd.io/etcd/pkg/transport"
+	"github.com/coreos/etcd/pkg/transport"
 )
 
 const (

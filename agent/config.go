@@ -21,6 +21,7 @@ type Config struct {
 	Cfgpath   string
 	Ifname    string
 	AnyIP     string
+	PublicIP  string
 }
 
 func (c *Config) getConf(f string) {

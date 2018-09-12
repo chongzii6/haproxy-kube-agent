@@ -122,7 +122,7 @@ func addLoadBalancer(name string, endpoints []Endpoint, port int) error {
 	lbkey := fmt.Sprintf("%s/%s", CmdCfg.Agentkey, name)
 
 	st := &LBState{
-		HostIP:      GetHostIP(),
+		HostIP:      CmdCfg.PublicIP,
 		ContainerID: cid,
 		Port:        p}
 

@@ -9,4 +9,5 @@ agentkey: /hapagent/lbagent
 reqkey: /hapagent/lbreq
 cfgpath: /c/Users/junlinch/vol
 ifname: 本地连接
+publicip: 192.168.100.219
 anyip: any
