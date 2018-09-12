@@ -167,6 +167,7 @@ func EtcdMutex() error {
 	}
 	defer s1.Close()
 	m1 := concurrency.NewMutex(s1, "/my-lock/")
+
 	_ = m1
 	return nil
 }

@@ -39,9 +39,9 @@ func main() {
 		// }
 	}()
 
-	go func() {
-		agent.EtcdWatch(agent.CmdCfg.GetAnyReqkey(), quit)
-	}()
+	// go func() {
+	// 	agent.EtcdWatch(agent.CmdCfg.GetAnyReqkey(), quit)
+	// }()
 
 	agent.EtcdWatch(agent.CmdCfg.GetReqkey(), quit)
 }
