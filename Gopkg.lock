@@ -10,15 +10,17 @@
   version = "v0.4.11"
 
 [[projects]]
-  digest = "1:d0c885511c8406d122085960e4fb850547380e285b4112a46282319ca7234ed6"
+  digest = "1:d0f8d05fbd87449d093024bc4e2df02e934122bb710907d1828a560ebcc9be52"
   name = "github.com/coreos/etcd"
   packages = [
     "auth/authpb",
     "clientv3",
+    "clientv3/concurrency",
     "etcdserver/api/v3rpc/rpctypes",
     "etcdserver/etcdserverpb",
     "mvcc/mvccpb",
     "pkg/tlsutil",
+    "pkg/transport",
     "pkg/types",
   ]
   pruneopts = "UT"
@@ -26,18 +28,18 @@
   version = "v3.3.9"
 
 [[projects]]
-  branch = "docker/1.13"
-  digest = "1:6b5297ed2caa15361468ddbb4add02a8498b2c1082c3ac0a7eb0dde01f13428a"
+  digest = "1:3cabbabc9e0e4aa7e12b882bdc213f41cf8bd2b2ce2a7b5e0aceaf8a6a78049b"
   name = "github.com/docker/distribution"
   packages = [
     "digest",
     "reference",
   ]
   pruneopts = "UT"
-  revision = "28602af35aceda2f8d571bad7ca37a54cf0250bc"
+  revision = "48294d928ced5dd9b378f7fd7c6f5da3ff3f2c89"
+  version = "v2.6.2"
 
 [[projects]]
-  digest = "1:2a24f860b9d3d8cb97fdc29b144c129ea41010336fc1b7b1bc1252d27b3569f9"
+  digest = "1:c4c7064c2c67a0a00815918bae489dd62cd88d859d24c95115d69b00b3d33334"
   name = "github.com/docker/docker"
   packages = [
     "api/types",
@@ -58,8 +60,8 @@
     "pkg/tlsconfig",
   ]
   pruneopts = "UT"
-  revision = "49bf474f9ed7ce7143a59d1964ff7b7fd9b52178"
-  version = "v1.13.0"
+  revision = "092cba3727bb9b4a2f0e922cd6c0f93ea270e363"
+  version = "v1.13.1"
 
 [[projects]]
   digest = "1:811c86996b1ca46729bad2724d4499014c4b9effd05ef8c71b852aad90deb0ce"
@@ -74,14 +76,15 @@
   version = "v0.4.0"
 
 [[projects]]
-  digest = "1:aaf8d8f8ffb92e0c4985a8796655071cb9a1870c585ad50d968f78931b871a98"
+  digest = "1:6f82cacd0af5921e99bf3f46748705239b36489464f4529a1589bc895764fb18"
   name = "github.com/docker/go-units"
   packages = ["."]
   pruneopts = "UT"
-  revision = "8a7beacffa3009a9ac66bad506b18ffdd110cf97"
+  revision = "47565b4f722fb6ceae66b95f853feed578a4a51c"
+  version = "v0.3.3"
 
 [[projects]]
-  digest = "1:3d3a3d38b5ba4934a07e047b3d7397841d8bb69eafdf482260db415290796b19"
+  digest = "1:bfc758d5a03d57d97226fac6934551c01bd76612adb119c177395b057a0a46db"
   name = "github.com/gogo/protobuf"
   packages = [
     "gogoproto",
@@ -89,8 +92,8 @@
     "protoc-gen-gogo/descriptor",
   ]
   pruneopts = "UT"
-  revision = "342cbe0a04158f6dcb03ca0079991a51a4248c02"
-  version = "v0.5"
+  revision = "636bf0302bc95575d69441b25a2603156ffdddf1"
+  version = "v1.1.1"
 
 [[projects]]
   digest = "1:4c0989ca0bcd10799064318923b9bc2db6b4d6338dd75f3f2d86c3511aaaf5cf"
@@ -111,7 +114,8 @@
   name = "github.com/pkg/errors"
   packages = ["."]
   pruneopts = "UT"
-  revision = "839d9e913e063e28dfd0e6c7b7512793e0a48be9"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
 
 [[projects]]
   digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
@@ -122,41 +126,31 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:9148afaeb1df1ad758fe4b33ec66dd53a1f8d9e1584c02eefeb200c552d5cbbf"
-  name = "go.etcd.io/etcd"
-  packages = [
-    "clientv3",
-    "clientv3/concurrency",
-    "pkg/transport",
-  ]
-  pruneopts = "UT"
-  revision = "fca8add78a9d926166eb739b8e4a124434025ba3"
-  version = "v3.3.9"
-
-[[projects]]
-  branch = "master"
-  digest = "1:5dc06d5ed94e4a4f1ec4f9b16caea5446fe5a8d6255654c6effbdc98ba6ad0d0"
+  branch = "release-branch.go1.10"
+  digest = "1:ca1d29c9c90a38a1c14d2dfe55353fa0d575a261d0092de6ff6f1221e9062f83"
   name = "golang.org/x/net"
   packages = [
     "context",
     "context/ctxhttp",
-    "http/httpguts",
     "http2",
     "http2/hpack",
     "idna",
-    "internal/socks",
     "internal/timeseries",
+    "lex/httplex",
     "proxy",
     "trace",
   ]
   pruneopts = "UT"
-  revision = "8a410e7b638dca158bf9e766925842f6651ff828"
+  revision = "0ed95abb35c445290478a5348a7b38bb154135fd"
 
 [[projects]]
   branch = "release-branch.go1.11"
-  digest = "1:cbf3da13bdb8fff0cea91ffc9ac5bb9211117315842c191511a72c58245f1416"
+  digest = "1:a60cae5be8993938498243605b120290533a5208fd5cac81c932afbad3642fb0"
   name = "golang.org/x/sys"
-  packages = ["windows"]
+  packages = [
+    "unix",
+    "windows",
+  ]
   pruneopts = "UT"
   revision = "98c5dad5d1a0e8a73845ecc8897d0bd56586511d"
 
@@ -184,39 +178,48 @@
   version = "v0.3.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:077c1c599507b3b3e9156d17d36e1e61928ee9b53a5b420f10f28ebd4a0b275c"
+  branch = "jba-regen"
+  digest = "1:601e63e7d4577f907118bec825902505291918859d223bce015539e79f1160e3"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "c66870c02cf823ceb633bcd05be3c7cda29976f4"
+  revision = "af2e5e2b5d87da17f10febed626e553cad71cac7"
 
 [[projects]]
-  digest = "1:45101b53b1b93d50e2464e3b164bfa72cc77229fb998cfcd029987006488c641"
+  digest = "1:c52f29435ecb5b76c37e7f0098b6a50dbe60f8624d820827d0fede75c40199a1"
   name = "google.golang.org/grpc"
   packages = [
     ".",
     "balancer",
+    "balancer/base",
+    "balancer/roundrobin",
     "codes",
     "connectivity",
     "credentials",
-    "grpclb/grpc_lb_v1/messages",
+    "encoding",
+    "encoding/proto",
     "grpclog",
     "health/grpc_health_v1",
     "internal",
+    "internal/backoff",
+    "internal/channelz",
+    "internal/envconfig",
+    "internal/grpcrand",
+    "internal/transport",
     "keepalive",
     "metadata",
     "naming",
     "peer",
     "resolver",
+    "resolver/dns",
+    "resolver/passthrough",
     "stats",
     "status",
     "tap",
-    "transport",
   ]
   pruneopts = "UT"
-  revision = "5b3c4e850e90a4cf6a20ebd46c8b32a0a3afcb9e"
-  version = "v1.7.5"
+  revision = "8dea3dc473e90c8179e519d91302d0597c0ca1d1"
+  version = "v1.15.0"
 
 [[projects]]
   digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
@@ -230,15 +233,15 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/coreos/etcd/clientv3",
+    "github.com/coreos/etcd/clientv3/concurrency",
     "github.com/coreos/etcd/mvcc/mvccpb",
+    "github.com/coreos/etcd/pkg/transport",
     "github.com/docker/docker/api/types",
     "github.com/docker/docker/api/types/container",
     "github.com/docker/docker/client",
     "github.com/docker/go-connections/nat",
     "github.com/satori/go.uuid",
-    "go.etcd.io/etcd/clientv3",
-    "go.etcd.io/etcd/clientv3/concurrency",
-    "go.etcd.io/etcd/pkg/transport",
     "gopkg.in/yaml.v2",
   ]
   solver-name = "gps-cdcl"
