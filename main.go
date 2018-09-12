@@ -39,6 +39,8 @@ func main() {
 		// }
 	}()
 
+	log.Printf("@@@ host:%s <==> public:%s\n", agent.GetHostIP(), agent.CmdCfg.PublicIP)
+
 	// go func() {
 	// 	agent.EtcdWatch(agent.CmdCfg.GetAnyReqkey(), quit)
 	// }()
